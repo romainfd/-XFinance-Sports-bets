@@ -14,11 +14,6 @@ racine='C:/Users/antoine/Desktop/Polytechnique/Binet/X Finance/Data Sports bet'
 data=pd.read_csv(open(racine+'test.csv',encoding='utf-8'),index_col=0)
 
 event_winner=data.groupby("event_id").apply(lambda x: np.repeat(x["racer_id"].values,x["win_lose"]))
-
-def strategie(event_id,nCourse=10):
-    listRacer=np.array(data.loc["event_id"]["racer_id"])
-    for racer in listRacer:
-        
     
 
 data=pd.read_csv(open(racine+'/test.csv'),index_col=0)
@@ -38,7 +33,11 @@ racer['event_id']=racerAux.apply(lambda x:np.array(x.index))
  
 ##
 
->>>>>>> 0588342e08c76df41d83ccc9b2d06cae855dcb8d
+
+def strategie(event_id,nCourse=10):
+    listRacer=np.array(data.loc["event_id"]["racer_id"])
+    for racer in listRacer:
+        
 
 def backTest(strat):
     w=0
