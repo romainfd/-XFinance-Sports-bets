@@ -4,7 +4,7 @@ import matplotlib.pyplot as plt
 import os
 import os.path
 ##
-racine='C:/Users/antoine/Desktop/Polytechnique/Binet/X Finance/Data Sports bet'
+#racine='C:/Users/antoine/Desktop/Polytechnique/Binet/X Finance/Data Sports bet'
 
 data=pd.read_csv(open(racine+'/test.csv'),index_col=0)
 data=data[data.columns[:7]]
@@ -26,4 +26,10 @@ racer['event_id']=racerAux.apply(lambda x:np.array(x.index))
 
 def backTest(strat):
     w=0
-    for i in data.groupby(data.index).
+    s=set(data.index)
+    for i in s:
+        if strat(i) in eventWinner.loc[i]:
+            w+=1
+    return w/s
+        
+        
