@@ -9,7 +9,6 @@ import os.path
 #racine="/Users/yassinhamaoui/Desktop/data_sports_bets/"
 
 data=pd.read_csv(open(racine+'test.csv',encoding='utf-8'),index_col=0)
-data=pd.read_csv(open(racine+'/test.csv'),index_col=0)
 data=data[data.columns[:7]]
 data.index.name='event_id'
 
