@@ -23,9 +23,25 @@ racer['event_id']=racerAux.apply(lambda x:np.array(x.index))
  
 ##
 def strategie(event_id,nCourse=10):
-    listRacer=np.array(data.loc["event_id"]["racer_id"])
-    for racer in listRacer:
-        
+    #traiter le cas ou c'est un seul où 0 élement
+    listRacer=np.array(data.loc[event_id]["racer_id"])
+    maxPerf=0
+    bestRacer=listRacer[0]
+    for racerID in listRacer:
+        #traiter le cas ou c'est un seul où 0 élement
+        courses=list(racer.loc[racerID]["event_id"])
+        indexCourse=courses.index(event_id)
+        #traiter le cas ou c'est un seul où 0 élement
+        resultats=list(racer.loc[racerID]["win_lose"])
+        compteur=1
+        performance=0
+        while (indexCourse-compteur>=0 and compteur<=10) :
+            performance+=resultats[indexCourse-Compteur]
+            compteur+=1
+        if (performance>maxPerf):
+            maxPerf=performance
+            bestRacer=racerID
+    return bestRacer
 
 def backTest(strat):
     w=0
@@ -34,5 +50,3 @@ def backTest(strat):
         if strat(i) in eventWinner.loc[i]:
             w+=1
     return w/s
-        
-        
