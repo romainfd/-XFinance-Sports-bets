@@ -2,19 +2,28 @@ import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
 import os
+import os.path
+##
+racine='C:/Users/antoine/Desktop/Polytechnique/Binet/X Finance/Data Sports bet'
+
+data=pd.read_csv(open(racine+'/test.csv'),index_col=0)
+data=data[data.columns[:7]]
+data.index.name='event_id'
+
+
 ##
 
-racine='C:/Users/antoine/Desktop/Polytechnique/Binet/X Finance/Sports bet'
 
-data=pd.read_csv(open(racine+'/greyhoundwin_18.04.28_18.05.04.csv'),index_col=0)
+racerAux=data.groupby('racer_id')
 
-greyhound=data.groupby
+racer=pd.DataFrame(columns=['event_id','win_lose'])
 
-print('bonjour')
+racer['win_lose']=racerAux['win_lose'].apply(lambda x:np.array(x))
+racer['event_id']=racerAux.apply(lambda x:np.array(x.index))
+ 
+##
 
-def dist(s):
-    a=s[0]
-    
 
-df=data.groupby('EVENT_ID')
-
+def backTest(strat):
+    w=0
+    for i in data.groupby(data.index).
