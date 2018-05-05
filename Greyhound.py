@@ -4,8 +4,9 @@ import matplotlib.pyplot as plt
 ##
 
 racine='C:/Users/antoine/Desktop/Polytechnique/Binet/X Finance/Sports bet'
+racine_hamaoui="/Users/yassinhamaoui/Desktop/Sportsbets/"
 
-data=pd.read_csv(racine +'/greyhoundwin_18.04.28_18.05.04.csv')
+data=pd.read_csv(racine+'/greyhoundwin_18.04.28_18.05.04.csv')
 
 greyhound=data.groupby
 
