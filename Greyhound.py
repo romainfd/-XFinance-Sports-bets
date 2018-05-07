@@ -23,7 +23,6 @@ racer['event_id']=racerAux.apply(lambda x:np.array(x.index))
  
 ##
 def strategie(event_id,nCourse=10):
-    #traiter le cas ou c'est un seul où 0 élement
     try:
         listRacer=list(np.array(data.loc[event_id]["racer_id"]))
     except TypeError:
