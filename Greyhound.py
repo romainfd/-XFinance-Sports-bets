@@ -6,7 +6,7 @@ import os.path
 
 ##
 #racine='C:/Users/antoine/Desktop/Polytechnique/Binet/X Finance/Data Sports bet/'
-racine="/Users/yassinhamaoui/Desktop/data_sports_bets/"
+#racine="/Users/yassinhamaoui/Desktop/data_sports_bets/"
 
 data=pd.read_csv(open(racine+'test.csv',encoding='utf-8'),index_col=0)
 data=data[data.columns[:7]]
