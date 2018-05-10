@@ -58,4 +58,4 @@ def getData(OutputFolderPath, dataType, debut, fin):
 
 print("download.py correctly imported.")
 
-getData("", dataType, debut, fin)
+# getData("", dataType, debut, fin)
