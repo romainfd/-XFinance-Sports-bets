@@ -3,12 +3,29 @@ import numpy as np
 import matplotlib.pyplot as plt
 import os
 import os.path
+from Greyhounds.download import *
 
-##
+racine = "C:/Users/Romain Fouilland/Documents/Romain/Travail/Polytechnique/Binets/X Finance/Horse racing/"
 #racine='C:/Users/antoine/Desktop/Polytechnique/Binet/X Finance/Data Sports bet/'
 #racine="/Users/yassinhamaoui/Desktop/data_sports_bets/"
 
-data=pd.read_csv(open(racine+'test.csv',encoding='utf-8'),index_col=0)
+## PARAMETERS BUILDING
+# win or place ?
+dataType = 'place'
+# start and end dates (year, month, day)
+debut = datetime.datetime(2018, 5, 1)
+fin = datetime.datetime(2018, 5, 5)
+## /PARAMETERS
+
+# Télécharge les données voulues
+def openData(dataType, debut, fin):
+    # if the file already exists we do not download it again
+    if (os.path.isfile(racine+"Greyhounds/Output/output_"+dataType+"_"+dateToString(debut)+"_"+dateToString(fin)+".csv")):
+        print("File already exists. Using existing data.")
+        return racine+"Greyhounds/Output/output_"+dataType+"_"+dateToString(debut)+"_"+dateToString(fin)+".csv"
+    return getData(racine+"Greyhounds/", dataType, debut, fin)
+
+data=pd.read_csv(open(openData(dataType, debut, fin),encoding='utf-8'),index_col=0)
 data=data[data.columns[:7]]
 data.index.name='event_id'
 
@@ -50,3 +67,5 @@ def backTest(strat):
         if strat(i) in eventWinner.loc[i]:
             w+=1
     return w/len(s)
+
+print(backTest(strategie))
