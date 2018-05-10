@@ -5,10 +5,10 @@ import os
 import os.path
 
 ##
-#racine='C:/Users/antoine/Desktop/Polytechnique/Binet/X Finance/Data Sports bet/'
+racine='C:/Users/antoine/Desktop/Polytechnique/Binet/X Finance/Data Sports bet/'
 #racine="/Users/yassinhamaoui/Desktop/data_sports_bets/"
 
-data=pd.read_csv(open(racine+'test.csv',encoding='utf-8'),index_col=0)
+data=pd.read_csv(open(racine+'win_01012017_01052018.csv',encoding='utf-8'),index_col=0)
 data=data[data.columns[:7]]
 data.index.name='event_id'
 
@@ -50,3 +50,14 @@ def backTest(strat):
         if strat(i) in eventWinner.loc[i]:
             w+=1
     return w/len(s)
+
+##
+s=0
+for i in range(data['win_lose'].size):
+    if (data['win_lose'].iloc[i] in [4,'4']):
+        s+=1
+        print(data['win_lose'].iloc[i],type(data['win_lose'].iloc[i]),s,data.iloc[i])
+        
+##
+def fstr(s):
+    return s[3:]
