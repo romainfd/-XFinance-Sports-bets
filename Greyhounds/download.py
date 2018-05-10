@@ -49,7 +49,7 @@ def getData(OutputFolderPath, dataType, debut, fin):
 					# Cast en int, str, ...
 
 					# On écrit la ligne corrigée dans le fichier
-					file.write(','.join(rowData))
+					file.write(','.join(rowData)+'\n')
 				cpt += 1
 				print(dateToString(d)+ " done.")
 			d = d + datetime.timedelta(1)
