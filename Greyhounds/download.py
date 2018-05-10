@@ -1,12 +1,14 @@
 import requests
 import datetime
+import csv
 print("Start importing download.py")
 
 ## PARAMETERS BUILDING
 # win or place ?
 dataType = 'place'
 # start and end dates (year, month, day)
-debut = datetime.datetime(2018, 5, 1)
+debut = datetime.datetime(2012, 9, 20)
+#fin = datetime.datetime(2018, 5, 2)
 fin = debut.today()
 ## /PARAMETERS
 
@@ -31,8 +33,23 @@ def getData(OutputFolderPath, dataType, debut, fin):
 		while (d < fin):
 			data = requests.get('http://www.betfairpromo.com/betfairsp/prices/dwbfgreyhound'+dataType+""+dateToString(d)+'.csv')
 			if data.status_code == 200:
-				tab = data.text[163:]
-				file.write(tab)
+				# on enlève le header du fichier et on récupère ses lignes
+				rows = data.text[163:].split('\n')
+				# on traite les données (sauf la dernière ligne qui est vide)
+				for row in rows[:-1]:
+					# liste des valeurs de la ligne
+					rowData = row.split(',')
+					# ERREUR DE NOM (virgule après le dossard : "1, Nom")
+					if (len(rowData) != 17):
+						print(len(rowData), rowData)
+						# input()
+						rowData = row.replace(', ', '. ').split(',') # on modifie la liste de la ligne
+						print("Ligne corrigée : ",len(rowData),rowData)
+					# AUTRES TRAITEMENTS
+					# Cast en int, str, ...
+
+					# On écrit la ligne corrigée dans le fichier
+					file.write(','.join(rowData))
 				cpt += 1
 				print(dateToString(d)+ " done.")
 			d = d + datetime.timedelta(1)
@@ -40,3 +57,5 @@ def getData(OutputFolderPath, dataType, debut, fin):
 	return OutputFolderPath+"Output/output_"+dataType+"_"+dateToString(debut)+"_"+dateToString(fin)+".csv"
 
 print("download.py correctly imported.")
+
+getData("", dataType, debut, fin)
