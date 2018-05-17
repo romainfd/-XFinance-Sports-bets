@@ -1,6 +1,5 @@
 import requests
 import datetime
-import csv
 print("Start importing download.py")
 
 ## PARAMETERS BUILDING
@@ -28,7 +27,7 @@ def zeroIfOneDigit(int):
 def getData(OutputFolderPath, dataType, debut, fin):
 	d = debut
 	cpt = 0
-	with open(OutputFolderPath+"Output/output_"+dataType+"_"+dateToString(debut)+"_"+dateToString(fin)+".csv", "w", encoding='utf-8') as file:
+	with open(OutputFolderPath+"output_"+dataType+"_"+dateToString(debut)+"_"+dateToString(fin)+".csv", "w", encoding='utf-8') as file:
 		file.write("event_id,place,event_name,date,racer_id,racer_name,win_lose,BSP,PPWAP,MORNINGWAP,PPMAX,PPMIN,IPMAX,IPMIN,MORNINGTRADEDVOL,PPTRADEDVOL,IPTRADEDVOL\n")
 		while (d < fin):
 			data = requests.get('http://www.betfairpromo.com/betfairsp/prices/dwbfgreyhound'+dataType+""+dateToString(d)+'.csv')
@@ -54,7 +53,7 @@ def getData(OutputFolderPath, dataType, debut, fin):
 				print(dateToString(d)+ " done.")
 			d = d + datetime.timedelta(1)
 		print("Done: {} data-days have been downloaded between the dates of {} and {}".format(cpt, debut.strftime("%d-%m-%y"), fin.strftime("%d-%m-%y")))
-	return OutputFolderPath+"Output/output_"+dataType+"_"+dateToString(debut)+"_"+dateToString(fin)+".csv"
+	return OutputFolderPath+"output_"+dataType+"_"+dateToString(debut)+"_"+dateToString(fin)+".csv"
 
 print("download.py correctly imported.")
 

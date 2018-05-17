@@ -3,28 +3,29 @@ import numpy as np
 import matplotlib.pyplot as plt
 import os
 import os.path
-from Greyhounds.download import *
+import Greyhounds.download as dnld
 
 racine = "C:/Users/Romain Fouilland/Documents/Romain/Travail/Polytechnique/Binets/X Finance/Horse racing/"
 #racine='C:/Users/antoine/Desktop/Polytechnique/Binet/X Finance/Data Sports bet/'
 #racine="/Users/yassinhamaoui/Desktop/data_sports_bets/"
 
+dataPath = "Greyhounds/Output/"
 ## PARAMETERS BUILDING
 # win or place ?
 dataType = 'place'
 # start and end dates (year, month, day)
-debut = datetime.datetime(2012, 9, 20)
-fin = debut.today()
-# fin = datetime.datetime(2018, 5, 5)
+debut = dnld.datetime.datetime(2018, 5, 1)
+# fin = debut.today()
+fin = dnld.datetime.datetime(2018, 5, 9)
 ## /PARAMETERS
 
 # Télécharge les données voulues
 def openData(dataType, debut, fin):
     # if the file already exists we do not download it again
-    if (os.path.isfile(racine+"Greyhounds/Output/output_"+dataType+"_"+dateToString(debut)+"_"+dateToString(fin)+".csv")):
+    if (os.path.isfile(racine+dataPath+"/output_"+dataType+"_"+dnld.dateToString(debut)+"_"+dnld.dateToString(fin)+".csv")):
         print("File already exists. Using existing data.")
-        return racine+"Greyhounds/Output/output_"+dataType+"_"+dateToString(debut)+"_"+dateToString(fin)+".csv"
-    return getData(racine+"Greyhounds/", dataType, debut, fin)
+        return racine+"Greyhounds/Output/output_"+dataType+"_"+dnld.dateToString(debut)+"_"+dnld.dateToString(fin)+".csv"
+    return dnld.getData(racine+dataPath, dataType, debut, fin)
 
 data=pd.read_csv(open(openData(dataType, debut, fin),encoding='utf-8'),index_col=0)
 data=data[data.columns[:7]]
