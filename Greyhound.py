@@ -12,10 +12,13 @@ minRacersNb = 2 # nb of racer min to bet
 
 ## /PARAMETRES
 
-##
-racine = "C:/Users/Romain Fouilland/Documents/Romain/Travail/Polytechnique/Binets/X Finance/Horse racing/"
-#racine='C:/Users/antoine/Desktop/Polytechnique/Binet/X Finance/Sports bet/'
-#racine="/Users/yassinhamaoui/Desktop/data_sports_bets/"
+## CHOIX AUTOMATIQUE DE LA RACINE
+racines = {
+    'C:\\Users\\Romain Fouilland\\Documents\\Romain\\Travail\\Polytechnique\\Binets\\X Finance\\Horse racing': "C:/Users/Romain Fouilland/Documents/Romain/Travail/Polytechnique/Binets/X Finance/Horse racing/",
+    'C:\\Users\\antoine':'C:/Users/antoine/Desktop/Polytechnique/Binet/X Finance/Sports bet/',
+    'Users\\yassin': "/Users/yassinhamaoui/Desktop/data_sports_bets/" #a finir de remplir
+}
+racine = racines[os.getcwd()]
 
 dataPath = "Greyhounds/Output/"
 ## PARAMETERS BUILDING
