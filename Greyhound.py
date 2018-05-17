@@ -27,7 +27,7 @@ racine = racines[os.getcwd()]
 # win or place ?
 dataType = 'place'
 # start and end dates (year, month, day)
-debut = datetime.datetime(2017, 4, 1)
+debut = datetime.datetime(2012, 9, 20)
 # fin = debut.today()
 fin = datetime.datetime(2018, 4, 1)
 ## /PARAMETERS
@@ -134,15 +134,38 @@ def backTest(strat):
 ##
 
 t0 = time.time()
-print(backTest(strategie))
-print(time.time() - t0)
-#factors = [0.35, 0.45, 0.5, 0.55, 0.6, 0.65]
-#results = [0, 0, 0, 0, 0, 0]
-#for i in range(6):
-#    tempFactor = factors[i]
-#    results[i] = backTest(strategie)
-#    print(time.time() - t0, results[i])
-#    t0 = time.time()
-#
-#plt.plot(factors, results)
-#print(results)
+#print(backTest(strategie))
+#print(time.time() - t0)
+factors = [0.10, 0.20, 0.30, 0.40, 0.47, 0.485, 0.49, 0.495, 0.5, 0.505, 0.51, 0.515, 0.53, 0.6, 0.7, 0.8, 0.9, 1];
+results = []
+for i in range(len(factors)):
+    tempFactor = factors[i]
+    results.append(backTest(strategie))
+    print("Pour le tempFactor = {}, après {:.2f}s, on a obtenu une prévision de {}".format(factors[i], time.time() - t0, results[i]))
+    t0 = time.time()
+plt.plot(factors, results)
+plt.show()
+print(results)
+
+factors = [1.1, 1.2, 1.3, 1.4, 1.5, 1.75, 2, 2.25, 2.5, 2.75, 3, 3.5, 4, 4.5, 5]
+results = []
+for i in range(len(factors)):
+    tempFactor = factors[i]
+    results.append(backTest(strategie))
+    print("Pour le tempFactor = {}, après {:.2f}s, on a obtenu une prévision de {}".format(factors[i], time.time() - t0, results[i]))
+    t0 = time.time()
+plt.plot(factors, results)
+plt.show()
+print(results)
+
+factors= [7.5, 10, 12.5, 15, 20]
+results = []
+for i in range(len(factors)):
+    tempFactor = factors[i]
+    results.append(backTest(strategie))
+    print("Pour le tempFactor = {}, après {:.2f}s, on a obtenu une prévision de {}".format(factors[i], time.time() - t0, results[i]))
+    t0 = time.time()
+    
+plt.plot(factors, results)
+plt.show()
+print(results)
