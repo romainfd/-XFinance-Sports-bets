@@ -11,7 +11,7 @@ import datetime
 minRacersNb = 2 # nb of racer min to bet
 dataPath = "Greyhounds/Output/"
 factorLastRace = 1
-tempFactor = 1
+tempFactor = 0.5
 ## /PARAMETRES
 
 ## CHOIX AUTOMATIQUE DE LA RACINE
@@ -27,7 +27,7 @@ racine = racines[os.getcwd()]
 # win or place ?
 dataType = 'place'
 # start and end dates (year, month, day)
-debut = datetime.datetime(2018, 1, 1)
+debut = datetime.datetime(2017, 4, 1)
 # fin = debut.today()
 fin = datetime.datetime(2018, 4, 1)
 ## /PARAMETERS
@@ -136,3 +136,13 @@ def backTest(strat):
 t0 = time.time()
 print(backTest(strategie))
 print(time.time() - t0)
+#factors = [0.35, 0.45, 0.5, 0.55, 0.6, 0.65]
+#results = [0, 0, 0, 0, 0, 0]
+#for i in range(6):
+#    tempFactor = factors[i]
+#    results[i] = backTest(strategie)
+#    print(time.time() - t0, results[i])
+#    t0 = time.time()
+#
+#plt.plot(factors, results)
+#print(results)
