@@ -5,6 +5,7 @@ import os
 import os.path
 import Greyhounds.download as dnld
 import time
+import datetime
 
 ## PARAMETRES GLOBAUX
 minRacersNb = 2 # nb of racer min to bet
@@ -21,17 +22,17 @@ dataPath = "Greyhounds/Output/"
 # win or place ?
 dataType = 'place'
 # start and end dates (year, month, day)
-debut = dnld.datetime.datetime(2018, 1, 1)
+debut = datetime.datetime(2018, 1, 1)
 # fin = debut.today()
-fin = dnld.datetime.datetime(2018, 4, 1)
+fin = datetime.datetime(2018, 4, 1)
 ## /PARAMETERS
 
 # Télécharge les données voulues
 def openData(dataType, debut, fin):
     # if the file already exists we do not download it again
-    if (os.path.isfile(racine+dataPath+"output_"+dataType+"_"+dnld.dateToString(debut)+"_"+dnld.dateToString(fin)+".csv")):
+    if (os.path.isfile(racine+dataPath+"output_"+dataType+"_"+debut.strftime("%d%m%Y")+"_"+fin.strftime("%d%m%Y")+".csv")):
         print("File already exists. Using existing data.")
-        return racine+dataPath+"output_"+dataType+"_"+dnld.dateToString(debut)+"_"+dnld.dateToString(fin)+".csv"
+        return racine+dataPath+"output_"+dataType+"_"+debut.strftime("%d%m%Y")+"_"+fin.strftime("%d%m%Y")+".csv"
     return dnld.getData(racine+dataPath, dataType, debut, fin)
 
 data=pd.read_csv(open(openData(dataType, debut, fin),encoding='utf-8'),index_col=0)
