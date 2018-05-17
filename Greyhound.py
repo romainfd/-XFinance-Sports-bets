@@ -5,7 +5,9 @@ import os
 import os.path
 import Greyhounds.download as dnld
 
-racine = "C:/Users/Romain Fouilland/Documents/Romain/Travail/Polytechnique/Binets/X Finance/Horse racing/"
+
+##
+#racine = "C:/Users/Romain Fouilland/Documents/Romain/Travail/Polytechnique/Binets/X Finance/Horse racing/"
 #racine='C:/Users/antoine/Desktop/Polytechnique/Binet/X Finance/Data Sports bet/'
 #racine="/Users/yassinhamaoui/Desktop/data_sports_bets/"
 
@@ -34,7 +36,6 @@ data.index.name='event_id'
 ##
 eventWinner=data.groupby("event_id").apply(lambda x: np.repeat(x["racer_id"].values,x["win_lose"]))
 
-##
 racerAux=data.groupby('racer_id')
 racer=pd.DataFrame(columns=['event_id','win_lose'])
 racer['win_lose']=racerAux['win_lose'].apply(lambda x:np.array(x))
@@ -69,5 +70,11 @@ def backTest(strat):
         if strat(i) in eventWinner.loc[i]:
             w+=1
     return w/len(s)
+
+        
+##
+def formatName(s):
+    return s[3:]
+
 
 print(backTest(strategie))
