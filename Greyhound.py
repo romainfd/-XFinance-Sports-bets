@@ -7,7 +7,7 @@ import Greyhounds.download as dnld
 
 
 ##
-#racine = "C:/Users/Romain Fouilland/Documents/Romain/Travail/Polytechnique/Binets/X Finance/Horse racing/"
+racine = "C:/Users/Romain Fouilland/Documents/Romain/Travail/Polytechnique/Binets/X Finance/Horse racing/"
 #racine='C:/Users/antoine/Desktop/Polytechnique/Binet/X Finance/Data Sports bet/'
 #racine="/Users/yassinhamaoui/Desktop/data_sports_bets/"
 
@@ -16,9 +16,9 @@ dataPath = "Greyhounds/Output/"
 # win or place ?
 dataType = 'place'
 # start and end dates (year, month, day)
-debut = dnld.datetime.datetime(2018, 5, 1)
+debut = dnld.datetime.datetime(2018, 1, 1)
 # fin = debut.today()
-fin = dnld.datetime.datetime(2018, 5, 9)
+fin = dnld.datetime.datetime(2018, 4, 1)
 ## /PARAMETERS
 
 # Télécharge les données voulues
@@ -32,21 +32,25 @@ def openData(dataType, debut, fin):
 data=pd.read_csv(open(openData(dataType, debut, fin),encoding='utf-8'),index_col=0)
 data=data[data.columns[:7]]
 data.index.name='event_id'
+data['win_lose']=data['win_lose'].fillna(0).astype(int)
+data['racer_name'] = data['racer_name'].apply(lambda x: x[3:])
+print("Donnéees chargées")
 
 ##
-eventWinner=data.groupby("event_id").apply(lambda x: np.repeat(x["racer_id"].values,x["win_lose"]))
+eventWinner=data.groupby("event_id").apply(lambda x: np.repeat(x["racer_name"].values, x["win_lose"]))
 
-racerAux=data.groupby('racer_id')
+racerAux=data.groupby('racer_name')
 racer=pd.DataFrame(columns=['event_id','win_lose'])
 racer['win_lose']=racerAux['win_lose'].apply(lambda x:np.array(x))
 racer['event_id']=racerAux.apply(lambda x:np.array(x.index))
  
+print("Données triées")
 ##
 def strategie(event_id,nCourse=10):
     try:
-        listRacer=list(np.array(data.loc[event_id]["racer_id"]))
+        listRacer=list(np.array(data.loc[event_id]["racer_name"]))
     except TypeError:
-        listRacer=[data.loc[event_id]["racer_id"]]
+        listRacer=[data.loc[event_id]["racer_name"]]
     maxPerf=0
     bestRacer=listRacer[0]
     for racerID in listRacer:
@@ -70,11 +74,7 @@ def backTest(strat):
         if strat(i) in eventWinner.loc[i]:
             w+=1
     return w/len(s)
-
-        
-##
-def formatName(s):
-    return s[3:]
+##♦
 
 
 print(backTest(strategie))

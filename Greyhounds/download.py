@@ -45,7 +45,7 @@ def getData(OutputFolderPath, dataType, debut, fin):
 						rowData = row.replace(', ', '. ').split(',') # on modifie la liste de la ligne
 						print("Ligne corrigée : ",len(rowData),rowData)
 					# AUTRES TRAITEMENTS
-					# Cast en int, str, ...
+                 #rowData[5] = rowData[5][3:]
 
 					# On écrit la ligne corrigée dans le fichier
 					file.write(','.join(rowData)+'\n')
