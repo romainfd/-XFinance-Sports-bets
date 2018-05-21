@@ -12,6 +12,7 @@ minRacersNb = 2 # nb of racer min to bet
 dataPath = "Greyhounds/Output/"
 factorLastRace = 1
 tempFactor = 0.5
+offsetDays = 365*5+30*4
 ## /PARAMETRES
 
 ## CHOIX AUTOMATIQUE DE LA RACINE
@@ -27,7 +28,7 @@ racine = racines[os.getcwd()]
 # win or place ?
 dataType = 'place'
 # start and end dates (year, month, day)
-debut = datetime.datetime(2012, 9, 20)
+debut = datetime.datetime(2012, 9, 10)
 # fin = debut.today()
 fin = datetime.datetime(2018, 4, 1)
 ## /PARAMETERS
@@ -57,7 +58,7 @@ def formatName(name):
         name = name[1:]
     # Commence TJS par une maj => on sort jamais du for
     print("Erreur sur le nom de cheval : "+nameInit)
-    return nameInit
+    return nameInit[3:]
 
 data=pd.read_csv(open(openData(dataType, debut, fin),encoding='utf-8'),index_col=0)
 data=data[data.columns[:7]]
@@ -84,7 +85,7 @@ def dateFromStr(dateStr):
     return datetime.datetime(int(dateStr[6:10]), int(dateStr[3:5]), int(dateStr[0:2]), int(dateStr[11:13]), int(dateStr[14:16]))
 
 ##
-def strategie(event_id,nCourse=10):
+def strategie(event_id,nCourse=1000):
     try:
         listRacer=courses['racers'].loc[event_id]
     except TypeError:
@@ -124,48 +125,51 @@ def backTest(strat):
     nbBets = 0
     # set pour ne traiter qu'une fois chaque liste
     for i in courses.index:
-        if courses.loc[i].size >= minRacersNb:
+        if (courses.loc[i].size >= minRacersNb and (dateFromStr(courses.loc[i]['date']) - debut).days >= offsetDays):
             # on parie sur cette course
             nbBets += 1
             if strat(i) in courses['winners'].loc[i]:
                 # notre levrier est dans les gagnants
                 w+=1
+    if nbBets == 0:
+        return 0
     return w/nbBets
 ##
 
 t0 = time.time()
-#print(backTest(strategie))
-#print(time.time() - t0)
-factors = [0.10, 0.20, 0.30, 0.40, 0.47, 0.485, 0.49, 0.495, 0.5, 0.505, 0.51, 0.515, 0.53, 0.6, 0.7, 0.8, 0.9, 1];
-results = []
-for i in range(len(factors)):
-    tempFactor = factors[i]
-    results.append(backTest(strategie))
-    print("Pour le tempFactor = {}, après {:.2f}s, on a obtenu une prévision de {}".format(factors[i], time.time() - t0, results[i]))
-    t0 = time.time()
-plt.plot(factors, results)
-plt.show()
-print(results)
+print(backTest(strategie)*100)
+print(time.time() - t0)
 
-factors = [1.1, 1.2, 1.3, 1.4, 1.5, 1.75, 2, 2.25, 2.5, 2.75, 3, 3.5, 4, 4.5, 5]
-results = []
-for i in range(len(factors)):
-    tempFactor = factors[i]
-    results.append(backTest(strategie))
-    print("Pour le tempFactor = {}, après {:.2f}s, on a obtenu une prévision de {}".format(factors[i], time.time() - t0, results[i]))
-    t0 = time.time()
-plt.plot(factors, results)
-plt.show()
-print(results)
-
-factors= [7.5, 10, 12.5, 15, 20]
-results = []
-for i in range(len(factors)):
-    tempFactor = factors[i]
-    results.append(backTest(strategie))
-    print("Pour le tempFactor = {}, après {:.2f}s, on a obtenu une prévision de {}".format(factors[i], time.time() - t0, results[i]))
-    t0 = time.time()
-    
-plt.plot(factors, results)
-plt.show()
-print(results)
+#factors = [0.10, 0.20, 0.30, 0.40, 0.47, 0.485, 0.49, 0.495, 0.5, 0.505, 0.51, 0.515, 0.53, 0.6, 0.7, 0.8, 0.9, 1];
+#results = []
+#for i in range(len(factors)):
+#    tempFactor = factors[i]
+#    results.append(backTest(strategie))
+#    print("Pour le tempFactor = {}, après {:.2f}s, on a obtenu une prévision de {}".format(factors[i], time.time() - t0, results[i]))
+#    t0 = time.time()
+#plt.plot(factors, results)
+#plt.show()
+#print(results)
+#
+#factors = [1.1, 1.2, 1.3, 1.4, 1.5, 1.75, 2, 2.25, 2.5, 2.75, 3, 3.5, 4, 4.5, 5]
+#results = []
+#for i in range(len(factors)):
+#    tempFactor = factors[i]
+#    results.append(backTest(strategie))
+#    print("Pour le tempFactor = {}, après {:.2f}s, on a obtenu une prévision de {}".format(factors[i], time.time() - t0, results[i]))
+#    t0 = time.time()
+#plt.plot(factors, results)
+#plt.show()
+#print(results)
+#
+#factors= [7.5, 10, 12.5, 15, 20]
+#results = []
+#for i in range(len(factors)):
+#    tempFactor = factors[i]
+#    results.append(backTest(strategie))
+#    print("Pour le tempFactor = {}, après {:.2f}s, on a obtenu une prévision de {}".format(factors[i], time.time() - t0, results[i]))
+#    t0 = time.time()
+#    
+#plt.plot(factors, results)
+#plt.show()
+#print(results)
