@@ -12,7 +12,7 @@ minRacersNb = 2 # nb of racer min to bet
 dataPath = "Greyhounds/Output/"
 factorLastRace = 1
 tempFactor = 0.5
-offsetDays = 365*5+30*4
+offsetDays = 0
 ## /PARAMETRES
 
 ## CHOIX AUTOMATIQUE DE LA RACINE
@@ -307,10 +307,11 @@ for i in courses.index:
             s+=1
     NewRacerCourse['Winner is new'].loc[i]=s
 
+print(max(NewRacerCourse['New racer']))
 #Affichage
 plt.figure()
 
-plt.hist(NewRacerCourse['New racer'],bins=np.arange(max(NewRacerCourse['New racer']))-0.5,normed=True)
+plt.hist(list(np.array(NewRacerCourse['New racer'])),bins=np.arange(max(NewRacerCourse['New racer']))-0.5)
 
 
 plt.title('Histogramme du nombre de nouveaux racers par course')
@@ -320,7 +321,7 @@ plt.xlim(-1,max(NewRacerCourse['New racer'])+1)
 
 plt.figure()
 
-plt.hist(NewRacerCourse['Winner is new'],bins=np.arange(max(NewRacerCourse['Winner is new']))-0.5,normed=True)
+plt.hist(list(np.array(NewRacerCourse['Winner is new'])),bins=np.arange(max(NewRacerCourse['Winner is new']))-0.5,normed=True)
 
 
 plt.title('Histogramme du nombre de winners sur leur 1ère course')
@@ -339,4 +340,4 @@ def CheckDate(l):
             return False
     return True
 
-print(racer.loc[~racer['date'].apply(lambda x: patternCheckDate(x))])
+print(racer.loc[~racer['date'].apply(lambda x: CheckDate(x))])
