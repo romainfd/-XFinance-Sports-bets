@@ -188,7 +188,7 @@ def backTest(strat):
 # plt.ylabel('Nombre de lévriers')
 # plt.xlim(0,max(NbCourseGreyhound)+1)
 # 
-# consec=1 # paramètre du nombre de victoires consécutives
+# consec=5 # paramètre du nombre de victoires consécutives
 # 
 # def filterVict(results,consecutive=consec): # fonction filtre nombre de victoires consécutives
 #     t=0
@@ -206,11 +206,11 @@ def backTest(strat):
 # winners=racer.loc[filterWinLose] # tableau des winners
 # losers=racer.loc[~filterWinLose] # tableau des losers
 # 
-# #nombre de courses courues par les winners/losers
+# nombre de courses courues par les winners/losers
 # NbCourseWinners=winners['win_lose'].apply(lambda x : len(x)) 
 # NbCourseLosers=losers['win_lose'].apply(lambda x : len(x))
 # 
-# # Affichage
+# Affichage
 # plt.figure()
 # 
 # plt.hist([NbCourseLosers,NbCourseWinners],bins=np.arange(max(NbCourseWinners)+1)-0.5,stacked=False,color=['r','b'],label=['Losers','Winners'])
@@ -236,7 +236,7 @@ def backTest(strat):
 # 
 # rankVictories=winners['win_lose'].apply(lambda x: auxRankVict(x,consec)) # tableau du rang ddes premières victoires consécutives
 # 
-# # Affichage
+# Affichage
 # plt.figure()
 # 
 # plt.hist(rankVictories,bins=np.arange(max(rankVictories)+1)-0.5)
@@ -249,7 +249,7 @@ def backTest(strat):
 # 
 # print('Nombre de racers : {}'.format(racer.index.size))
 # print('Nombre de winners : {}'.format(winners.index.size))
-# print('Nombre de cources : {}'.format(np.sum(NbCourseGreyhound)))
+# print('Nombre de courses : {}'.format(courses.index.size))
 
 ## Statistique longévité des racers
 # print('step 2 : Statistique longévité des racers')
@@ -289,47 +289,47 @@ def backTest(strat):
 
 
 ## Statistique sur les nouveaux racers
-print('step 3 : Statistique sur les nouveaux racers')
-
-NewRacerCourse=pd.DataFrame(columns=['New racer','Winner is new'],index=courses.index) # tableau donnant  pour chaque course le nombre de racer et de winner dont c'est la première course
-
-for i in courses.index:
-    s=0
-    for r in courses['racers'].loc[i]:
-        ind=racer['event_id'].loc[r][0]
-        if(ind==i):
-            s+=1
-    NewRacerCourse['New racer'].loc[i]=s
-    s=0
-    for r in courses['winners'].loc[i]:
-        ind=racer['event_id'].loc[r][0]
-        if(ind==i):
-            s+=1
-    NewRacerCourse['Winner is new'].loc[i]=s
-
-print(max(NewRacerCourse['New racer']))
-#Affichage
-plt.figure()
-
-plt.hist(list(np.array(NewRacerCourse['New racer'])),bins=np.arange(max(NewRacerCourse['New racer']))-0.5)
-
-
-plt.title('Histogramme du nombre de nouveaux racers par course')
-plt.xlabel('Nb de nouveaux racers')
-plt.ylabel('Pourcentage de courses')
-plt.xlim(-1,max(NewRacerCourse['New racer'])+1)
-
-plt.figure()
-
-plt.hist(list(np.array(NewRacerCourse['Winner is new'])),bins=np.arange(max(NewRacerCourse['Winner is new']))-0.5,normed=True)
-
-
-plt.title('Histogramme du nombre de winners sur leur 1ère course')
-plt.xlabel('Nb de winners sur leur 1ère course')
-plt.ylabel('Pourcentage de courses')
-plt.xlim(-1,max(NewRacerCourse['Winner is new'])+1)
-
-plt.show()
+# print('step 3 : Statistique sur les nouveaux racers')
+# 
+# NewRacerCourse=pd.DataFrame(columns=['New racer','Winner is new'],index=courses.index) # tableau donnant  pour chaque course le nombre de racer et de winner dont c'est la première course
+# 
+# for i in courses.index:
+#     s=0
+#     for r in courses['racers'].loc[i]:
+#         ind=racer['event_id'].loc[r][0]
+#         if(ind==i):
+#             s+=1
+#     NewRacerCourse['New racer'].loc[i]=s
+#     s=0
+#     for r in courses['winners'].loc[i]:
+#         ind=racer['event_id'].loc[r][0]
+#         if(ind==i):
+#             s+=1
+#     NewRacerCourse['Winner is new'].loc[i]=s
+# 
+# print(max(NewRacerCourse['New racer']))
+# Affichage
+# plt.figure()
+# 
+# plt.hist(list(np.array(NewRacerCourse['New racer'])),bins=np.arange(max(NewRacerCourse['New racer']))-0.5,normed=True)
+# 
+# 
+# plt.title('Histogramme du nombre de nouveaux racers par course')
+# plt.xlabel('Nb de nouveaux racers')
+# plt.ylabel('Pourcentage de courses')
+# plt.xlim(-1,max(NewRacerCourse['New racer'])+1)
+# 
+# plt.figure()
+# 
+# plt.hist(list(np.array(NewRacerCourse['Winner is new'])),bins=np.arange(max(NewRacerCourse['Winner is new']))-0.5,normed=True)
+# 
+# 
+# plt.title('Histogramme du nombre de winners sur leur 1ère course')
+# plt.xlabel('Nb de winners sur leur 1ère course')
+# plt.ylabel('Pourcentage de courses')
+# plt.xlim(-1,max(NewRacerCourse['Winner is new'])+1)
+# 
+# plt.show()
 
 ## Vérifier la croissance des dates dans le tableau racer
 def CheckDate(l):
@@ -340,4 +340,4 @@ def CheckDate(l):
             return False
     return True
 
-print(racer.loc[~racer['date'].apply(lambda x: CheckDate(x))])
+# print(racer.loc[~racer['date'].apply(lambda x: CheckDate(x))])
